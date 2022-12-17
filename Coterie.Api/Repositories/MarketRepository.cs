@@ -4,11 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+using Coterie.Api.Interfaces;
 using Coterie.Api.Models;
 
 namespace Coterie.Api.Repositories
 {
-    public class MarketRepository
+    public class MarketRepository : IMarketRepository
     {
         private readonly List<Market> markets = new() {
             new Market {
@@ -28,9 +29,9 @@ namespace Coterie.Api.Repositories
             }
         };
 
-        public bool IsValidMarket(string marketNameOrAbbreviaion)
+        public bool IsValidMarket(string marketNameOrAbbreviation)
         {
-            return !!markets.Any(market => market.Name.ToLower() == marketNameOrAbbreviaion.ToLower() || market.Abbreviation.ToLower() == marketNameOrAbbreviaion.ToLower());
+            return !!markets.Any(market => market.Name.ToLower() == marketNameOrAbbreviation.ToLower() || market.Abbreviation.ToLower() == marketNameOrAbbreviation.ToLower());
         }
 
         public Market GetMarket(string marketNameOrAbbreviation)

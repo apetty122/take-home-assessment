@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Coterie.Api.Interfaces;
 using Coterie.Api.Models;
 
 namespace Coterie.Api.Repositories
 {
-    public class BusinessRepository
+    public class BusinessRepository : IBusinessRepository
     {
 
         // we are assuming here that Name acts as a unique identifier for the business
@@ -13,15 +14,15 @@ namespace Coterie.Api.Repositories
         {
           new Business {
              Name = "architect",
-             Factors =  new List<Factor> { new Factor { Name = "BusinessFactor", Value = 1 } }
+             Factors =  new List<Factor> { new Factor { Name = "businessFactor", Value = 1 } }
           },
           new Business {
              Name = "plumber",
-             Factors =  new List<Factor> { new Factor { Name = "BusinessFactor", Value = 0.5 } }
+             Factors =  new List<Factor> { new Factor { Name = "businessFactor", Value = 0.5 } }
           },
           new Business {
              Name = "programmer",
-             Factors =  new List<Factor> { new Factor { Name = "BusinessFactor", Value = 1.25 } }
+             Factors =  new List<Factor> { new Factor { Name = "businessFactor", Value = 1.25 } }
           }
         };
 
@@ -35,7 +36,8 @@ namespace Coterie.Api.Repositories
         {
             Business business = businesses.SingleOrDefault(business => business.Name.ToLower() == name.ToLower());
 
-            if (business == null) { 
+            if (business == null)
+            {
                 throw new System.Exception(string.Format("No business for name: {0}", name));
             }
 
