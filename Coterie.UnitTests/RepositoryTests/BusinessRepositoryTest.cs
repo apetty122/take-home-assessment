@@ -20,7 +20,7 @@ namespace Coterie.UnitTests.RepositoryTests
 
         // tests for IsValidBusinessName
         [Test]
-        public void TestIsValidBusinessName_WhenTheNameIsValid()
+        public void IsValidBusinessName_WhenTheNameIsValid_ReturnsTrue()
         {
             string name = "architect";
             var actual = BusinessRepository.IsValidBusinessName(name);
@@ -29,7 +29,7 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void TestIsValidBusinessName_WhenTheNameIsValidNotCaseSensitive()
+        public void IsValidBusinessName_WhenTheNameIsValidNotCaseSensitive_ReturnsTrue()
         {
             string name = "Programmer";
             var actual = BusinessRepository.IsValidBusinessName(name);
@@ -38,7 +38,7 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void TestIsValidBusinessName_WhenTheNameIsNotValid()
+        public void IsValidBusinessName_WhenTheNameIsNotValid_ReturnsFalse()
         {
             string name = "NotAValidBusinessName";
             var actual = BusinessRepository.IsValidBusinessName(name);
@@ -48,7 +48,7 @@ namespace Coterie.UnitTests.RepositoryTests
 
         // tests for GetBusiness
         [Test]
-        public void TestGetBusiness_WhenTheBusinessExistsForName()
+        public void GetBusiness_WhenTheBusinessExistsForName_ReturnsTheBusiness()
         {
             string name = "plumber";
             var actual = BusinessRepository.GetBusiness(name);
@@ -58,7 +58,7 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void TestGetBusiness_WhenTheBusinessExistsForNameNotCaseSensitive()
+        public void GetBusiness_WhenTheBusinessExistsForNameNotCaseSensitive_ReturnsTheBusiness()
         {
             string name = "ArChItEcT";
             var actual = BusinessRepository.GetBusiness(name);
@@ -68,7 +68,7 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void TestGetBusiness_WhenTheBusinessNameIsNotValid()
+        public void GetBusiness_WhenTheBusinessNameIsNotValid_ThrowsError()
         {
             string name = "NotAValidBusinessName";
 
@@ -80,7 +80,7 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         // tests for GetFactorsForBusiness
-        public void TestGetFactorsForBusiness_GetsCorrectFactors_WhenTheBusinessIsValid()
+        public void GetFactorsForBusiness_GetsCorrectFactors_WhenTheBusinessIsValid_ReturnsTheFactors()
         {
             string name = "programmer";
             var actual = BusinessRepository.GetFactorsForBusiness(name);
@@ -91,7 +91,7 @@ namespace Coterie.UnitTests.RepositoryTests
             Assert.That(actual.First().Value, Is.EqualTo(1.25));
         }
 
-        public void TestGetFactorsForBusiness_GetsCorrectFactors_WhenTheBusinessIsNotValid()
+        public void GetFactorsForBusiness_GetsCorrectFactors_WhenTheBusinessIsNotValid_ThrowsError()
         {
             string name = "programmer";
 

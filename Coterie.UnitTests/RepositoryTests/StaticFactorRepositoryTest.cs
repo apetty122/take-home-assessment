@@ -21,7 +21,7 @@ namespace Coterie.UnitTests.RepositoryTests
 
         // test GetFactors
         [Test]
-        public void TestGetFactors_ReturnsCorrectFactors()
+        public void GetFactors_ReturnsCorrectFactors()
         {
             var actual = StaticFactorRepository.GetFactors();
 
