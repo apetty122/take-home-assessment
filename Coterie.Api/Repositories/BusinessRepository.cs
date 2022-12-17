@@ -25,5 +25,27 @@ namespace Coterie.Api.Repositories
           }
         };
 
+        public bool IsValidBusinessName(string name)
+        {
+            return businesses.Any(business => business.Name.ToLower() == name.ToLower());
+
+        }
+
+        public Business GetBusiness(string name)
+        {
+            Business business = businesses.SingleOrDefault(business => business.Name.ToLower() == name.ToLower());
+
+            if (business == null) { 
+                throw new System.Exception(string.Format("No business for name: {0}", name));
+            }
+
+            return business;
+        }
+
+        public List<Factor> GetFactorsForBusiness(string businessName)
+        {
+            return GetBusiness(businessName).Factors;
+        }
+
     }
 }

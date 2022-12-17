@@ -10,5 +10,10 @@ namespace Coterie.Api.Repositories
             new Factor { Name = "hazard", Value = 4.0 }
         };
 
+        public List<Factor> GetFactors()
+        {
+            return staticFactors;
+        }
+
     }
 }

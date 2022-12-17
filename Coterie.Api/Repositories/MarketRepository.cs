@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Linq;
 using Coterie.Api.Models;
 
 namespace Coterie.Api.Repositories
@@ -26,5 +27,40 @@ namespace Coterie.Api.Repositories
                Factors = new List<Factor> { new Factor { Name = "marketFactor", Value = 0.943 } }
             }
         };
+
+        public bool IsValidMarket(string marketNameOrAbbreviaion)
+        {
+            return !!markets.Any(market => market.Name.ToLower() == marketNameOrAbbreviaion.ToLower() || market.Abbreviation.ToLower() == marketNameOrAbbreviaion.ToLower());
+        }
+
+        public Market GetMarket(string marketNameOrAbbreviation)
+        {
+            Market market = marketNameOrAbbreviation.Length == 2 ? GetMarketByAbbreviation(marketNameOrAbbreviation) : GetMarketByName(marketNameOrAbbreviation);
+
+
+            if (market == null)
+            {
+                throw new System.Exception(string.Format("No market for name: {0}", marketNameOrAbbreviation));
+            }
+
+            return market;
+        }
+
+        public List<Factor> GetFactorsForMarket(string marketNameOrAbbreviation)
+        {
+            return GetMarket(marketNameOrAbbreviation).Factors;
+        }
+
+        private Market GetMarketByName(string name)
+        {
+            return markets.SingleOrDefault(market => market.Name.ToLower() == name.ToLower());
+
+        }
+
+        private Market GetMarketByAbbreviation(string abbreviation)
+        {
+            return markets.SingleOrDefault(market => market.Abbreviation.ToLower() == abbreviation.ToLower());
+        }
+
     }
 }
