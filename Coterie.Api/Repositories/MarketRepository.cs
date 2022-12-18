@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 using System.Xml.Linq;
 using Coterie.Api.Interfaces;
 using Coterie.Api.Models;
+using System.Threading.Tasks;
+
 
 namespace Coterie.Api.Repositories
 {
@@ -29,14 +31,15 @@ namespace Coterie.Api.Repositories
             }
         };
 
-        public bool IsValidMarket(string marketNameOrAbbreviation)
+        public async Task<bool> IsValidMarket(string marketNameOrAbbreviation)
         {
-            return !!markets.Any(market => market.Name.ToLower() == marketNameOrAbbreviation.ToLower() || market.Abbreviation.ToLower() == marketNameOrAbbreviation.ToLower());
+            bool isValidMarket = !!markets.Any(market => market.Name.ToLower() == marketNameOrAbbreviation.ToLower() || market.Abbreviation.ToLower() == marketNameOrAbbreviation.ToLower());
+            return await Task.FromResult(isValidMarket);
         }
 
-        public Market GetMarket(string marketNameOrAbbreviation)
+        public async Task<Market> GetMarket(string marketNameOrAbbreviation)
         {
-            Market market = marketNameOrAbbreviation.Length == 2 ? GetMarketByAbbreviation(marketNameOrAbbreviation) : GetMarketByName(marketNameOrAbbreviation);
+            Market market = marketNameOrAbbreviation.Length == 2 ? ( await GetMarketByAbbreviation(marketNameOrAbbreviation)) : (await GetMarketByName(marketNameOrAbbreviation));
 
 
             if (market == null)
@@ -47,20 +50,21 @@ namespace Coterie.Api.Repositories
             return market;
         }
 
-        public List<Factor> GetFactorsForMarket(string marketNameOrAbbreviation)
+        public async Task<List<Factor>> GetFactorsForMarket(string marketNameOrAbbreviation)
         {
-            return GetMarket(marketNameOrAbbreviation).Factors;
+            return ( await GetMarket(marketNameOrAbbreviation)).Factors;
         }
 
-        private Market GetMarketByName(string name)
+        private async Task<Market> GetMarketByName(string name)
         {
-            return markets.SingleOrDefault(market => market.Name.ToLower() == name.ToLower());
-
+            Market market = markets.SingleOrDefault(market => market.Name.ToLower() == name.ToLower());
+            return await Task.FromResult(market);
         }
 
-        private Market GetMarketByAbbreviation(string abbreviation)
+        private async Task<Market> GetMarketByAbbreviation(string abbreviation)
         {
-            return markets.SingleOrDefault(market => market.Abbreviation.ToLower() == abbreviation.ToLower());
+            Market market = markets.SingleOrDefault(market => market.Abbreviation.ToLower() == abbreviation.ToLower());
+            return await Task.FromResult(market);
         }
 
     }

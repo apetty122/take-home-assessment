@@ -21,9 +21,9 @@ namespace Coterie.UnitTests.RepositoryTests
 
         // test GetFactors
         [Test]
-        public void GetFactors_ReturnsCorrectFactors()
+        public async Task GetFactors_ReturnsCorrectFactors()
         {
-            var actual = StaticFactorRepository.GetFactors();
+            var actual = await StaticFactorRepository.GetFactors();
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Count, Is.EqualTo(1));

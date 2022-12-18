@@ -20,57 +20,57 @@ namespace Coterie.UnitTests.RepositoryTests
 
         // tests for IsValidMarket
         [Test]
-        public void IsValidMarket_WhenFullName_ReturnsTrue()
+        public async Task IsValidMarket_WhenFullName_ReturnsTrue()
         {
             string name = "ohio";
-            var actual = MarketRepository.IsValidMarket(name);
+            var actual = await MarketRepository.IsValidMarket(name);
 
             Assert.That(actual, Is.True);
         }
 
         [Test]
-        public void IsValidMarket_WhenFullNameNotCaseSensitive_ReturnsTrue()
+        public async Task IsValidMarket_WhenFullNameNotCaseSensitive_ReturnsTrue()
         {
             string name = "FLORIDA";
-            var actual = MarketRepository.IsValidMarket(name);
+            var actual = await MarketRepository.IsValidMarket(name);
 
             Assert.That(actual, Is.True);
         }
 
         [Test]
-        public void IsValidMarket_WhenAbbreviation_ReturnsTrue()
+        public async Task IsValidMarket_WhenAbbreviation_ReturnsTrue()
         {
             string name = "tx";
-            var actual = MarketRepository.IsValidMarket(name);
+            var actual = await MarketRepository.IsValidMarket(name);
 
             Assert.That(actual, Is.True);
         }
 
 
         [Test]
-        public void IsValidMarket_WhenAbbreviationIsNotCaseSensitive_ReturnsTrue()
+        public async Task IsValidMarket_WhenAbbreviationIsNotCaseSensitive_ReturnsTrue()
         {
             string name = "Oh";
-            var actual = MarketRepository.IsValidMarket(name);
+            var actual = await MarketRepository.IsValidMarket(name);
 
             Assert.That(actual, Is.True);
         }
 
 
         [Test]
-        public void IsValidMarket_WhenFullNameNotValid_ReturnsFalse()
+        public async Task IsValidMarket_WhenFullNameNotValid_ReturnsFalse()
         {
             string name = "NotAValidName";
-            var actual = MarketRepository.IsValidMarket(name);
+            var actual = await MarketRepository.IsValidMarket(name);
 
             Assert.That(actual, Is.False);
         }
 
         [Test]
-        public void IsValidMarket_WhenAbbreviationNotValid_ReturnsFalse()
+        public async Task IsValidMarket_WhenAbbreviationNotValid_ReturnsFalse()
         {
             string name = "XX";
-            var actual = MarketRepository.IsValidMarket(name);
+            var actual = await MarketRepository.IsValidMarket(name);
 
             Assert.That(actual, Is.False);
         }
@@ -78,10 +78,10 @@ namespace Coterie.UnitTests.RepositoryTests
 
         // tests for GetMarket
         [Test]
-        public void GetMarket_WhenFullNameIsValid_ReturnsTheMarket()
+        public async Task GetMarket_WhenFullNameIsValid_ReturnsTheMarket()
         {
             string name = "texas";
-            var actual = MarketRepository.GetMarket(name);
+            var actual = await MarketRepository.GetMarket(name);
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Name, Is.EqualTo("texas"));
@@ -89,10 +89,10 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void GetMarket_WhenFullNameIsValidNotCaseSensitive_ReturnsTheMarket()
+        public async Task GetMarket_WhenFullNameIsValidNotCaseSensitive_ReturnsTheMarket()
         {
             string name = "FlOrIda";
-            var actual = MarketRepository.GetMarket(name);
+            var actual = await MarketRepository.GetMarket(name);
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Name, Is.EqualTo("florida"));
@@ -100,10 +100,10 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void GetMarket_WhenAbbreviationValid_ReturnsTheMarket()
+        public async Task GetMarket_WhenAbbreviationValid_ReturnsTheMarket()
         {
             string name = "fl";
-            var actual = MarketRepository.GetMarket(name);
+            var actual = await MarketRepository.GetMarket(name);
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Name, Is.EqualTo("florida"));
@@ -112,10 +112,10 @@ namespace Coterie.UnitTests.RepositoryTests
 
 
         [Test]
-        public void GetMarket_WhenAbbreviationValidNotCaseSensitive_ReturnsTheMarket()
+        public async Task GetMarket_WhenAbbreviationValidNotCaseSensitive_ReturnsTheMarket()
         {
             string name = "FL";
-            var actual = MarketRepository.GetMarket(name);
+            var actual = await MarketRepository.GetMarket(name);
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Name, Is.EqualTo("florida"));
@@ -123,34 +123,35 @@ namespace Coterie.UnitTests.RepositoryTests
         }
 
         [Test]
-        public void GetMarket_WhenFullNameNotValid_ThrowsError()
+        public async Task GetMarket_WhenFullNameNotValid_ThrowsError()
         {
             string name = "NotAValidMarketName";
 
-            Exception ex = Assert.Throws<System.Exception>(
-                () => { MarketRepository.GetMarket(name); }
+            Exception ex = Assert.ThrowsAsync<System.Exception>(
+                async () => { await MarketRepository.GetMarket(name); }
             );
 
             Assert.That(ex.Message, Is.EqualTo("No market for name: NotAValidMarketName"));
         }
 
         [Test]
-        public void GetMarket_WhenAbbreviationNotValid_ThrowsError()
+        public async Task GetMarket_WhenAbbreviationNotValid_ThrowsError()
         {
             string name = "XX";
 
-            Exception ex = Assert.Throws<System.Exception>(
-                () => { MarketRepository.GetMarket(name); }
+            Exception ex = Assert.ThrowsAsync<System.Exception>(
+                async () => { await MarketRepository.GetMarket(name); }
             );
+
 
             Assert.That(ex.Message, Is.EqualTo("No market for name: XX"));
         }
 
         // tests for GetFactorsForMarket
-        public void TestGetFactorsForBusiness_WhenTheMarketFullNameIsValid_GetsCorrectFactors()
+        public async Task TestGetFactorsForBusiness_WhenTheMarketFullNameIsValid_GetsCorrectFactors()
         {
             string name = "TEXAS";
-            var actual = MarketRepository.GetFactorsForMarket(name);
+            var actual = await MarketRepository.GetFactorsForMarket(name);
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Count, Is.EqualTo(1));
@@ -158,10 +159,10 @@ namespace Coterie.UnitTests.RepositoryTests
             Assert.That(actual.First().Value, Is.EqualTo(0.943));
         }
 
-        public void TestGetFactorsForBusiness_WhenTheMarketAbbreviationIsValid_GetsCorrectFactors()
+        public async Task TestGetFactorsForBusiness_WhenTheMarketAbbreviationIsValid_GetsCorrectFactors()
         {
             string name = "TX";
-            var actual = MarketRepository.GetFactorsForMarket(name);
+            var actual = await MarketRepository.GetFactorsForMarket(name);
 
             Assert.IsNotNull(actual);
             Assert.That(actual.Count, Is.EqualTo(1));
@@ -169,24 +170,26 @@ namespace Coterie.UnitTests.RepositoryTests
             Assert.That(actual.First().Value, Is.EqualTo(0.943));
         }
 
-        public void TestGetFactorsForBusiness_WhenTheMarketFullNameIsNotValid_GetsCorrectFactors()
+        public async Task TestGetFactorsForBusiness_WhenTheMarketFullNameIsNotValid_GetsCorrectFactors()
         {
             string name = "NotAValidMarketName";
 
-            Exception ex = Assert.Throws<System.Exception>(
-                () => { MarketRepository.GetMarket(name); }
+
+            Exception ex = Assert.ThrowsAsync<System.Exception>(
+                async () => { await MarketRepository.GetMarket(name); }
             );
 
             Assert.That(ex.Message, Is.EqualTo("No market for name: NotAValidMarketName"));
         }
 
-        public void TestGetFactorsForBusiness_WhenTheMarketAbbreviationIsNotValid_GetsCorrectFactors()
+        public async Task TestGetFactorsForBusiness_WhenTheMarketAbbreviationIsNotValid_GetsCorrectFactors()
         {
             string name = "XX";
 
-            Exception ex = Assert.Throws<System.Exception>(
-                () => { MarketRepository.GetMarket(name); }
+            Exception ex = Assert.ThrowsAsync<System.Exception>(
+                async () => { await MarketRepository.GetMarket(name); }
             );
+
 
             Assert.That(ex.Message, Is.EqualTo("No market for name: XX"));
         }

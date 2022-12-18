@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Coterie.Api.Interfaces;
 using Coterie.Api.Models;
+using System.Threading.Tasks;
 
 namespace Coterie.Api.Repositories
 {
@@ -11,9 +12,9 @@ namespace Coterie.Api.Repositories
             new Factor { Name = "hazard", Value = 4.0 }
         };
 
-        public List<Factor> GetFactors()
+        public Task<List<Factor>> GetFactors()
         {
-            return staticFactors;
+            return Task.FromResult(staticFactors);
         }
 
     }

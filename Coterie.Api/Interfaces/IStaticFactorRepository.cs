@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Coterie.Api.Models;
+using System.Threading.Tasks;
 
 namespace Coterie.Api.Interfaces
 {
     public interface IStaticFactorRepository
     {
-        List<Factor> GetFactors();
+        Task<List<Factor>> GetFactors();
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 using Coterie.Api.Interfaces;
+using System.Threading.Tasks;
 using Coterie.Api.Models;
 
 namespace Coterie.Api.Repositories
@@ -26,13 +27,14 @@ namespace Coterie.Api.Repositories
           }
         };
 
-        public bool IsValidBusinessName(string name)
+        public async Task<bool> IsValidBusinessName(string name)
         {
-            return businesses.Any(business => business.Name.ToLower() == name.ToLower());
+            bool isValid = businesses.Any(business => business.Name.ToLower() == name.ToLower());
+            return await Task.FromResult(isValid);
 
         }
 
-        public Business GetBusiness(string name)
+        public async Task<Business> GetBusiness(string name)
         {
             Business business = businesses.SingleOrDefault(business => business.Name.ToLower() == name.ToLower());
 
@@ -41,12 +43,12 @@ namespace Coterie.Api.Repositories
                 throw new System.Exception(string.Format("No business for name: {0}", name));
             }
 
-            return business;
+            return await Task.FromResult(business);
         }
 
-        public List<Factor> GetFactorsForBusiness(string businessName)
+        public async Task<List<Factor>> GetFactorsForBusiness(string businessName)
         {
-            return GetBusiness(businessName).Factors;
+            return ( await GetBusiness(businessName)).Factors;
         }
 
     }
