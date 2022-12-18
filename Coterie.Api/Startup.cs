@@ -1,5 +1,6 @@
 using Coterie.Api.ExceptionHelpers;
 using Coterie.Api.Interfaces;
+using Coterie.Api.Repositories;
 using Coterie.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,11 @@ namespace Coterie.Api
             });
 
             services.AddScoped<ITestService, TestService>();
+            services.AddScoped<IRateService, RateService>();
+            services.AddSingleton<IBusinessRepository, BusinessRepository>();
+            services.AddSingleton<IMarketRepository, MarketRepository>();
+            services.AddSingleton<IStaticFactorRepository, StaticFactorRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
